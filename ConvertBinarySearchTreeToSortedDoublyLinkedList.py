@@ -9,38 +9,35 @@ class Node:
 class Solution:
     def treeToDoublyList(self, root: 'Node') -> 'Node':
         
-        # Base case
+        # Base case 
         if not root: return None
-        
-        self.head, self.tail = None, None
 
-        def helper(root): 
+        self.head, self.tail = None, None
+        
+        def inOrder(root): 
             if not root: return
             
-            # left
-            helper(root.left)
-            
-            # root 
-            if self.tail:
-                # link the previous node (self.tail)
-                # with the current one (node)
+            # Left
+            inOrder(root.left)
+            # This if statement only runs for the smallest node (In order traveersal)
+            if not self.tail: 
+                # Saving the smallest Node
+                self.head = root
+            else: 
+                # Setting current node top point to next of tail 
                 self.tail.right = root
-                root.left = self.tail
-            else:
-                # keep the smallest node
-                # to close DLL later on
-                self.head = root        
+            # Setting current node as tail
             self.tail = root
-            
-            # right
-            helper(root.right)
-                
+            # Right
+            inOrder(root.right)
         
-        helper(root)
+        self.tail.right = self.head
         self.head.left = self.tail
-        self.tail.right = self.head 
 
         return self.head
+        
+
+    
 
 
 
